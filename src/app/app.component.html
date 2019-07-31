@@ -1,4 +1,13 @@
-<app-rating (ratingChange)="onRatingChange($event)"></app-rating>
+<form [formGroup]="form">
+  <app-rating formControlName="rating" required></app-rating>
+  <div *ngIf="rating.hasError('required')" style="color: red">
+    Rating is required!
+  </div>
+</form>
+
+<button type="button" (click)="toggleRatingField()">Toggle Rating Field</button>
+
+<pre>{{ form.value | json }}</pre>
 <small>
   Stars by Vladimir Belochkin from the Noun Project
 </small>

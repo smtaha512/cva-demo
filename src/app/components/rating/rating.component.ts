@@ -1,11 +1,19 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.scss']
+  styleUrls: ['./rating.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RatingComponent),
+      multi: true
+    }
+  ]
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnInit, ControlValueAccessor {
   ratings = [
     {
       star: 0,
@@ -28,16 +36,40 @@ export class RatingComponent implements OnInit {
       text: 'Best'
     }
   ];
-
-  @Output() ratingChange = new EventEmitter();
-  selectedRating = this.ratings[0];
+  selectedRating: number;
   isDisabled: boolean;
+
   constructor() {}
 
   ngOnInit() {}
 
   onStarClick(selectedRating: { star: number; text: string }) {
-    this.selectedRating = selectedRating;
-    this.ratingChange.emit(selectedRating.star);
+    if (this.isDisabled) {
+      return;
+    }
+    this.selectedRating = selectedRating.star;
+    this.onChange(selectedRating.star);
+    this.onTouched();
+  }
+
+  get ratingText(): string {
+    const currentRating = this.ratings.find(rating => rating.star === this.selectedRating);
+    return currentRating && currentRating.text;
+  }
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  writeValue(obj: any): void {
+    this.selectedRating = obj;
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = this.onTouched;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
   }
 }

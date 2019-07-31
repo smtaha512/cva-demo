@@ -7,12 +7,16 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  private readonly form = new FormGroup({
+  readonly form = new FormGroup({
     rating: new FormControl()
   });
 
-  onRatingChange(event) {
-    this.rating.setValue(event);
+  toggleRatingField() {
+    if (this.rating.disabled) {
+      this.rating.enable();
+    } else {
+      this.rating.disable();
+    }
   }
 
   get rating() {

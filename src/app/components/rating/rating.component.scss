@@ -11,8 +11,15 @@
   &:hover {
     border-bottom: 2px solid blue;
   }
-  &.disabled:hover {
-    cursor: not-allowed;
-    border-bottom: 2px solid transparent;
+  &.disabled {
+    &:hover {
+      cursor: not-allowed;
+    }
+    &.selected {
+      border-bottom: 2px solid lightblue;
+    }
+    &:not(.selected) {
+      border-bottom: 2px solid transparent;
+    }
   }
 }
