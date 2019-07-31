@@ -1,0 +1,4 @@
+<div>
+  <img class="star" [ngClass]="{ disabled: isDisabled, selected: selectedRating?.star !== null && selectedRating?.star >= i}" *ngFor="let item of ratings; let i=index;" src="/assets/star.svg" (click)="onStarClick(item)" />
+</div>
+<p>{{ selectedRating?.text }}</p>
