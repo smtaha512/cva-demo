@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ng-pak-cva-demo';
+  private readonly form = new FormGroup({
+    rating: new FormControl()
+  });
+
+  onRatingChange(event) {
+    this.rating.setValue(event);
+  }
+
+  get rating() {
+    return this.form.get('rating');
+  }
 }
